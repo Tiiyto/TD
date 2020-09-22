@@ -3,12 +3,19 @@ package com.example.helloworld
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.Toast
 
 const val TAG: String = "hello"
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val btnClick = findViewById<Button>(R.id.button)
+        btnClick?.setOnClickListener(){
+            Toast.makeText(this@MainActivity, R.string.message,Toast.LENGTH_SHORT).show()
+        }
         val v = 54
         val n = v/9 - 2
         Log.i(TAG, "n = $n")
@@ -19,6 +26,6 @@ class MainActivity : AppCompatActivity() {
         return if (n>1) {
             val fnm1 = factorielle(n-1)
             n * fnm1
-        } else {1}
+        } else 1
     }
 }
