@@ -3,4 +3,19 @@
     <string name="message">Salut tout le monde</string>
     <string name="MotdePasse">Mot de passe</string>
     <string name="ButtonContent">Ok</string>
+    <string name="Entrée">Entrée</string>
+    <string name="dejeuner">Plat principal</string>
+    <string name="fromage">Fromage</string>
+    <string name="fruit">Fruit</string>
+    <string name="valider">Valider</string>
+    <string name="annuler">Annuler</string>
+    <string name="midi">Midi</string>
+    <string name="soir">Soir</string>
+    <string name="temp">Température :</string>
+    <string name="tempC">°C</string>
+    <string name="vitesse_du_vent">Vitesse du vent :</string>
+    <string name="km_h">km/h</string>
+    <string name="hint">DD</string>
+    <string name="enter_time">Enter Time</string>
+    <string name="enter_day">Enter Day</string>
 </resources>
