@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Dice Roller</string>
+    <string name="lancer_de_d">LANCER DE DÉ</string>
+    <string name="entrer_la_valeure_maximale">Entrer la valeure maximale</string>
+</resources>
