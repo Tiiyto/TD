@@ -15,6 +15,7 @@ class LoginActivity : AppCompatActivity() {
         val log: EditText = findViewById(R.id.log)
         login.setOnClickListener{
             val Intent = Intent(this,NewsActivity::class.java)
+            NewsListApplication.login = log.text.toString()
             Intent.putExtra("login",log.text.toString())
             startActivity(Intent)
             finish()
