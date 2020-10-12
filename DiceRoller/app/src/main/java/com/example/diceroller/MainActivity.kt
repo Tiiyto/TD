@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             } else Toast.makeText(this,"Ce nest pas un nombre positif",Toast.LENGTH_SHORT).show()
         }
     }
-    private fun rollD(n: Int): Int /*Return an integer between 1 and 6*/
+    private fun rollD(n: Int): Int /*Return an integer between 1 and n*/
     {
         return (1..n).random()
     }

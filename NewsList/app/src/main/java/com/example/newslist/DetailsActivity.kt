@@ -17,7 +17,6 @@ import retrofit2.Response
 
 class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        loadPosts()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         setTitle(localClassName)
@@ -39,26 +38,5 @@ class DetailsActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
-    }
-    private fun loadPosts()
-    {
-        val postService = ServiceBuilder.buildService(PostService::class.java)
-        val requestCall = postService.getListPost()
-        requestCall.enqueue(object: Callback<List<Post>>{
-            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                if(response.isSuccessful)
-                {
-                    val postList = response.body()
-                    val test: TextView = findViewById(R.id.textView)
-                    if(postList != null)
-                    {
-                        test.text = postList[5].body
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-            }
-        })
     }
 }
