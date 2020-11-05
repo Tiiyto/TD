@@ -2,15 +2,19 @@ package com.example.td6
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.td6.adapter.RepoAdapter
 import com.example.td6.models.Repo
 import com.example.td6.models.ReposList
 import com.example.td6.services.GithubService
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +27,6 @@ class ListofRepoFind : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listof_repo_find)
-
         rvRepos = findViewById(R.id.rvRepo)
         rvRepos.adapter = RepoAdapter(repos, this)
         rvRepos.layoutManager = LinearLayoutManager(this)
@@ -43,9 +46,23 @@ class ListofRepoFind : AppCompatActivity() {
 
                         val reposList = response.body()
                         repos.clear()
+                        val database = Room.databaseBuilder(this@ListofRepoFind, AppDatabase::class.java, "mydb")
+                                .allowMainThreadQueries()
+                                .build()
+                        val repoDAO: RepoDao = database.repoDao()
+                        val reposFomDb = repoDAO.getRepos()
+                        for (repo in reposFomDb)
+                        {
+                            repoDAO.deleteRepo(repo)
+                        }
+
                         if (reposList != null) {
                             repos.addAll(reposList.items)
                             rvRepos.adapter?.notifyDataSetChanged()
+                            for(repo in reposList.items)
+                            {
+                                repoDAO.insertOrUpdateRepo(repo)
+                            }
                         }
                     }
                 }

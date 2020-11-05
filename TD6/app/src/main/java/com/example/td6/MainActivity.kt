@@ -1,11 +1,11 @@
 package com.example.td6
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.td6.models.Repo
 import com.example.td6.services.GithubService
 import retrofit2.Call
@@ -13,6 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(GithubService::class.java)
-        githubService.listRepos("adrienbusin")?.enqueue(object : Callback<List<Repo>>{
+        githubService.listRepos("adrienbusin")?.enqueue(object : Callback<List<Repo>> {
             override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
                 afficherRepos(response.body())
             }
@@ -34,13 +35,18 @@ class MainActivity : AppCompatActivity() {
         val find: Button = findViewById(R.id.button)
         val nameRepo: TextView = findViewById(R.id.editTextTextPersonName)
         find.setOnClickListener {
-            val Intent = Intent(this,ListofRepoFind::class.java)
-            Intent.putExtra("nameRepo",nameRepo.text.toString())
+            val Intent = Intent(this, ListofRepoFind::class.java)
+            Intent.putExtra("nameRepo", nameRepo.text.toString())
+            startActivity(Intent)
+        }
+        val seeDb: Button = findViewById(R.id.button2)
+        seeDb.setOnClickListener {
+            val Intent = Intent(this, SeeDatabase::class.java)
             startActivity(Intent)
         }
     }
-    fun afficherRepos(repos : List<Repo?>?)
+    fun afficherRepos(repos: List<Repo?>?)
     {
-        Toast.makeText(this,"nombre de dépots : " + repos?.size , Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "nombre de dépots : " + repos?.size, Toast.LENGTH_SHORT).show()
     }
 }
