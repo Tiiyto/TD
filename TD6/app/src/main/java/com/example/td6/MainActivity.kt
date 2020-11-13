@@ -8,6 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.td6.models.Repo
 import com.example.td6.services.GithubService
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,19 +22,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val githubService = Retrofit.Builder()
-                .baseUrl(GithubService.ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(GithubService::class.java)
-        githubService.listRepos("adrienbusin")?.enqueue(object : Callback<List<Repo>> {
-            override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
-                afficherRepos(response.body())
-            }
 
-            override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
-            }
-        })
+        val githubService = Retrofit.Builder()
+            .baseUrl(GithubService.ENDPOINT)
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(GithubService::class.java)
+
+
+        githubService.listRepos("adrienbusin")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({listrepo->
+               //Ici vous obtenez vos resultat dans la variable listrepo
+                afficherRepos(listrepo)
+            }, {error->
+                // et ici les erreurs
+            })
+
+
         val find: Button = findViewById(R.id.button)
         val nameRepo: TextView = findViewById(R.id.editTextTextPersonName)
         find.setOnClickListener {
@@ -45,8 +55,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent)
         }
     }
-    fun afficherRepos(repos: List<Repo?>?)
-    {
+
+    fun afficherRepos(repos: List<Repo?>?) {
         Toast.makeText(this, "nombre de dépots : " + repos?.size, Toast.LENGTH_SHORT).show()
     }
 }
